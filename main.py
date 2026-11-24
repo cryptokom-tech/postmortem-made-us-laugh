@@ -34,8 +34,13 @@ def validate(text):
         return "entry must be a single line"
     if any(ord(ch) < 32 for ch in text):
         return "entry contains a control character"
-    if text.count(".") != 2 or not text.endswith("."):
+    if "  " in text:
+        return "entry contains a double space"
+    sentences = text.split(". ")
+    if len(sentences) != 2 or not text.endswith("."):
         return "entry must be exactly two sentences"
+    if any(not part.strip(" .") for part in sentences):
+        return "entry has an empty sentence"
     return None
 
 
